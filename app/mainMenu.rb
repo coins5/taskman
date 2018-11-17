@@ -1,3 +1,4 @@
+# gems
 require 'tty-prompt'
 
 def mainMenu ()
@@ -12,7 +13,7 @@ def mainMenu ()
   selected = prompt.select("Menu principal", choices)
 
   if (selected == 'sysConfig') 
-    systemConfig()
+    return systemConfig()
   end
 end
 
@@ -34,6 +35,7 @@ def systemConfig ()
   selected = prompt.select("Configuracion de sistema", choices)
 
   if (selected == 'back')
-    mainMenu()
+    return mainMenu()
   end
+
 end
