@@ -1,3 +1,31 @@
 {
-  "dataDirectory": "./data"
+  "dataDirectory": "./data",
+  "taskStatus": [
+    {
+      "id": 0,
+      "name": "En espera"
+    },
+    {
+      "id": 1,
+      "name": "En proceso"
+    },
+    {
+      "id": 2,
+      "name": "Terminado"
+    }
+  ],
+  "taskPriorities": [
+    {
+      "id": 0,
+      "name": "Baja"
+    },
+    {
+      "id": 1,
+      "name": "Media"
+    },
+    {
+      "id": 2,
+      "name": "Alta"
+    }
+  ]
 }

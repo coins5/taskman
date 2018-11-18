@@ -1,8 +1,3 @@
-# gems
-require 'tty-prompt'
-
-# local
-
 def mainMenu ()
   prompt = TTY::Prompt.new
   
@@ -25,7 +20,7 @@ end
 
 def tasksMenu ()
 
-  tasksInProgress = 0
+  tasksInProgress = 1
   prompt = TTY::Prompt.new
   
   choices = [
@@ -42,20 +37,20 @@ def tasksMenu ()
 
   selected = prompt.select("Menu de tareas", choices, default: tasksInProgress == 0 ? 2 : 1)
 
-  if (selected == 'back')
-    return mainMenu()
+  # in ./app/tasks.rb
+  case selected
+    when 'status'
+      return showStatus()
+    when 'addTask'
+      return addTask()
+    when 'searchTask'
+      return searchTask()
+    when 'tasksHistory'
+      return tasksHistory()
+    when 'back'
+      return mainMenu()
   end
-  
-  if (selected == 'status') 
-    return showStatus()
-  end
-
 end
-
-def showStatus ()
-  puts "show status"
-end
-
 
 def systemConfig ()
 =begin
@@ -68,7 +63,7 @@ def systemConfig ()
     
   choices = [
     {name: 'Ubicacion de archivos', value: 'files'},
-    {name: 'Usuarios', value: 'users'},
+    {name: 'Companeros de trabajo', value: 'coworkers'},
     {name: 'Atras', value: 'back'}
   ]
 
