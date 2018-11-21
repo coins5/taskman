@@ -60,7 +60,7 @@ def systemConfig ()
 =end
 
   prompt = TTY::Prompt.new
-    
+
   choices = [
     {name: 'Ubicacion de archivos', value: 'files'},
     {name: 'Companeros de trabajo', value: 'coworkers'},

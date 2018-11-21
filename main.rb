@@ -5,6 +5,9 @@ require 'tty-spinner'
 require 'pastel'
 require 'tty-file'
 
+# built-ins
+require 'securerandom'
+
 # globals
 require './app/utils/globals.rb'
 
