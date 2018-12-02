@@ -1,12 +1,13 @@
 # gems
 require 'tty-prompt'
-require 'tty-config'
+#require 'tty-config'
 require 'tty-spinner'
 require 'pastel'
 require 'tty-file'
 
 # built-ins
 require 'securerandom'
+require 'json'
 
 # globals
 require './app/utils/globals.rb'
