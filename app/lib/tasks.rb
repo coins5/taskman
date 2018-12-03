@@ -1,3 +1,37 @@
+def tasksMenu ()
+
+  tasksInProgress = 1
+  prompt = TTY::Prompt.new
+  
+  choices = [
+    {
+      name: 'Ver status',
+      value: 'status',
+      disabled: tasksInProgress == 0 ? '(No hay tareas pendientes)': false
+    },
+    {name: 'Agregar tarea', value: 'addTask'},
+    {name: 'Buscar tarea', value: 'searchTask'},
+    {name: 'Historial de tareas', value: 'tasksHistory'},
+    {name: 'Atras', value: 'back'}
+  ]
+
+  selected = prompt.select("Menu de tareas", choices, default: tasksInProgress == 0 ? 2 : 1)
+
+  # in ./app/tasks.rb
+  case selected
+    when 'status'
+      return showStatus()
+    when 'addTask'
+      return addTask()
+    when 'searchTask'
+      return searchTask()
+    when 'tasksHistory'
+      return tasksHistory()
+    when 'back'
+      return mainMenu()
+  end
+end
+
 def addTask ()
   # Loading priorities
   priorities = []
@@ -46,6 +80,8 @@ def addTask ()
   task[:coworkerID] = prompt.select('Seleccione un trabajador', coworkersList, filter: true)
 
   $tasks.push(task)
+  saveData('./data/tasks.json', JSON.generate($tasks))
+
   # [Estilo] Aplicando color al texto
   pastel = Pastel.new
   puts pastel.green('Tarea agregada')

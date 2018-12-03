@@ -13,9 +13,15 @@ require 'json'
 require './app/utils/globals.rb'
 
 # Application dependencies
-require './app/loadApp.rb'
+require './app/utils/dataSaver.rb'
+require './app/appLoader.rb'
+
+# Application functionalities
 require './app/mainMenu.rb'
-  require './app/tasks.rb'
+
+require './app/lib/profile.rb'
+require './app/lib/coworkers.rb'
+require './app/lib/tasks.rb'
 
 # Startup
 loadApp()
