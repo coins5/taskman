@@ -14,7 +14,7 @@ def coworkersMenu ()
 
   # TODO: Menu para cambiar ubicacion de archivos. Util en un futuro
   #choices.push({name: 'Ubicacion de archivos', value: 'files'})
-  
+
   selected = prompt.select("Companeros de trabajo", choices)
 
   if (selected == 'back')
