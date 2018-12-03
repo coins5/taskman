@@ -18,52 +18,14 @@ def mainMenu ()
   end
 end
 
-def tasksMenu ()
-
-  tasksInProgress = 1
-  prompt = TTY::Prompt.new
-  
-  choices = [
-    {
-      name: 'Ver status',
-      value: 'status',
-      disabled: tasksInProgress == 0 ? '(No hay tareas pendientes)': false
-    },
-    {name: 'Agregar tarea', value: 'addTask'},
-    {name: 'Buscar tarea', value: 'searchTask'},
-    {name: 'Historial de tareas', value: 'tasksHistory'},
-    {name: 'Atras', value: 'back'}
-  ]
-
-  selected = prompt.select("Menu de tareas", choices, default: tasksInProgress == 0 ? 2 : 1)
-
-  # in ./app/tasks.rb
-  case selected
-    when 'status'
-      return showStatus()
-    when 'addTask'
-      return addTask()
-    when 'searchTask'
-      return searchTask()
-    when 'tasksHistory'
-      return tasksHistory()
-    when 'back'
-      return mainMenu()
-  end
-end
-
 def systemConfig ()
-=begin
-    Se puede reconfigurar...
-    ... la ubicacion de los archivos
-    ... usuarios
-=end
-
   prompt = TTY::Prompt.new
-    
+
   choices = [
-    {name: 'Ubicacion de archivos', value: 'files'},
+    # TODO: Menu para cambiar ubicacion de archivos. Util en un futuro
+    # {name: 'Ubicacion de archivos', value: 'files'},
     {name: 'Companeros de trabajo', value: 'coworkers'},
+    {name: 'Informacion personal', value: 'profile'},
     {name: 'Atras', value: 'back'}
   ]
 
@@ -71,6 +33,14 @@ def systemConfig ()
 
   if (selected == 'back')
     return mainMenu()
+  end
+
+  if (selected == 'profile')
+    return showProfile()
+  end
+  
+  if (selected == 'coworkers')
+    return coworkersMenu()
   end
 
 end
