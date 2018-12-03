@@ -7,7 +7,7 @@ def coworkersMenu ()
   if ($coworkers.length > 0)
     choices.push({name: 'Mostrar companeros de trabajo', value: 'showCoworkers'})
     choices.push({name: 'Buscar companeros de trabajo', value: 'searchCoworker'})
-    #choices.push({name: 'Buscar companeros de trabajo', value: 'searchCoworker'})
+    choices.push({name: 'Editar informacion de companeros de trabajo', value: 'editCoworkers'})
   end
   choices.push({name: 'Agregar companero de trabajo', value: 'addCoworker'})
   choices.push({name: 'Atras', value: 'back'})
@@ -32,6 +32,10 @@ def coworkersMenu ()
   if (selected == 'searchCoworker')
     return searchCoworker()
   end
+
+  if (selected == 'editCoworkers')
+    return editCoworkers()
+  end
 end
 
 def addCoworker ()
@@ -55,7 +59,45 @@ def addCoworker ()
   coworkersMenu()
 end
 
-def searchCoworker()
+def editCoworkers ()
+  prompt = TTY::Prompt.new
+
+  coworkersList = []
+  for i in 0..$coworkers.length-1
+    c = $coworkers[i]
+    coworkersList.push({
+      name: c["name"] + " (" + c["email"] + ")",
+      value: c["id"]
+    })
+  end
+
+  # Ordenamiento
+  coworkersList = orderCoworkers(coworkersList, :name)
+
+  coworkerID = prompt.select('Seleccione un trabajador', coworkersList, filter: true)
+
+  # Busqueda lineal en array temporal coworkersList
+  for i in 0..$coworkers.length-1
+    c = $coworkers[i]
+    if (c["id"] == coworkerID)
+      $coworkers[i]["name"] = prompt.ask('Nombre: ', default: $coworkers[i]["name"])
+      $coworkers[i]["email"] = prompt.ask('Email: ', default: $coworkers[i]["email"])
+      $coworkers[i]["phone"] = prompt.ask('Telefono: ', default: $coworkers[i]["phone"])
+      $coworkers[i]["role"] = prompt.ask('Rol: ', default: $coworkers[i]["role"])
+      
+      saveData('./data/coworkers.json', JSON.generate($coworkers))
+
+      # [Estilo] Aplicando color al texto
+      pastel = Pastel.new
+      puts pastel.green('Companero de trabajo editado')
+
+      return coworkersMenu()
+      
+    end
+  end
+end
+
+def searchCoworker ()
   prompt = TTY::Prompt.new
 
   choices = []
