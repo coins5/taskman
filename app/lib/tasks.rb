@@ -71,13 +71,20 @@ def addTask ()
   # Task details
   task = {}
   prompt = TTY::Prompt.new
-
+=begin
   task[:id] = SecureRandom.uuid
   task[:title] = prompt.ask('Titulo de la tarea', '')
   task[:description] = prompt.multiline("Descripcion de la tarea").join("")
   task[:taskPriority] = prompt.select('Establezca prioridad', priorities, filter: true)
   task[:taskStatus] = prompt.select('Indique estado inicial de la tarea', taskStatus, filter: true)
   task[:coworkerID] = prompt.select('Seleccione un trabajador', coworkersList, filter: true)
+=end
+  task["id"] = SecureRandom.uuid
+  task["title"] = prompt.ask('Titulo de la tarea', '')
+  task["description"] = prompt.multiline("Descripcion de la tarea").join("")
+  task["taskPriority"] = prompt.select('Establezca prioridad', priorities, filter: true)
+  task["taskStatus"] = prompt.select('Indique estado inicial de la tarea', taskStatus, filter: true)
+  task["coworkerID"] = prompt.select('Seleccione un trabajador', coworkersList, filter: true)
 
   $tasks.push(task)
   saveData('./data/tasks.json', JSON.generate($tasks))

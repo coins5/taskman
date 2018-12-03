@@ -1,6 +1,5 @@
 # gems
 require 'tty-prompt'
-#require 'tty-config'
 require 'tty-spinner'
 require 'pastel'
 require 'tty-file'
@@ -16,7 +15,7 @@ require './app/utils/globals.rb'
 require './app/utils/dataSaver.rb'
 require './app/appLoader.rb'
 
-# Application functionalities
+# Application
 require './app/mainMenu.rb'
 
 require './app/lib/profile.rb'
