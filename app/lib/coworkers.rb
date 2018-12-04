@@ -118,13 +118,14 @@ def searchCoworker ()
   result = []
   for i in 0..$coworkers.length-1
     c = $coworkers[i]
-    if (c[selected].index(queryText) != nil)
+    if (c[selected].to_s.downcase.index(queryText.to_s.downcase) != nil)
       result.push(c)
     end
   end
 
-  # Ordenamiento
-  orderCoworkers(result, selected)
+  if (result.length > 0)
+    # Ordenamiento
+    orderCoworkers(result, selected)
 
 =begin
   Esta parte se puede hacer con un bucle normal,
@@ -133,16 +134,21 @@ def searchCoworker ()
     - Una funcion recursiva para recorrer la lista
 =end
 
-  coworkersList =  createCoworkersList(result)
-  listCoworkersRecursive(coworkersList)
+      coworkersList =  createCoworkersList(result)
+      listCoworkersRecursive(coworkersList)
+  else
+    puts "---------------------------------"
+    puts 'Nada que mostrar'
+    puts "---------------------------------"
+  end
+
   searchCoworker()
 end
 
-#FIXME: Debe ser case insensitive
 def orderCoworkers (arr, field)
   for i in 0..arr.length-2
     for j in (i+1)..arr.length-1
-      if (arr[i][field] > arr[j][field] )
+      if (arr[i][field].downcase > arr[j][field].downcase )
         arr[i], arr[j] = arr[j], arr[i]
       end
     end

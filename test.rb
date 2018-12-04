@@ -1,1 +1,1 @@
-puts "a" > "b"
+puts "AdSAdA".to_s.downcase.index("A".downcase)
