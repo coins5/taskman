@@ -3,17 +3,14 @@ def tasksMenu ()
   tasksInProgress = 1
   prompt = TTY::Prompt.new
   
-  choices = [
-    {
-      name: 'Ver status',
-      value: 'status',
-      disabled: tasksInProgress == 0 ? '(No hay tareas pendientes)': false
-    },
-    {name: 'Agregar tarea', value: 'addTask'},
-    {name: 'Buscar tarea', value: 'searchTask'},
-    {name: 'Historial de tareas', value: 'tasksHistory'},
-    {name: 'Atras', value: 'back'}
-  ]
+  choices = []
+  if ($tasks.length > 0)
+    choices.push({name: 'Ver status', value: 'status'})
+    choices.push({name: 'Buscar tarea', value: 'searchTask'})
+    choices.push({name: 'Editar tarea', value: 'editTask'})
+  end
+  choices.push({name: 'Agregar tarea', value: 'addTask'})
+  choices.push({name: 'Atras', value: 'back'})
 
   selected = prompt.select("Menu de tareas", choices, default: tasksInProgress == 0 ? 2 : 1)
 
@@ -25,8 +22,8 @@ def tasksMenu ()
       return addTask()
     when 'searchTask'
       return searchTask()
-    when 'tasksHistory'
-      return tasksHistory()
+    when 'editTask'
+      return editTask()
     when 'back'
       return mainMenu()
   end
@@ -39,7 +36,7 @@ def addTask ()
     p = $taskPriorities[i]
     priorities.push({
       name: p["name"],
-      id: p["id"]
+      value: p["id"]
     })
   end
 
@@ -49,7 +46,7 @@ def addTask ()
     t = $taskStatus[i]
     taskStatus.push({
       name: t["name"],
-      id: t["id"]
+      value: t["id"]
     })
   end
 
@@ -86,12 +83,106 @@ def addTask ()
   puts pastel.green('Tarea agregada')
   tasksMenu()
 end
-
-def searchTask ()
-  puts "search Task"
+def showStatus ()
+  puts "Show status"
 end
 
-def tasksHistory ()
-  puts "tasks History"
+def searchTask ()
+  puts "Search Task"
+  # TODO: replace coworkers reference with task
+  prompt = TTY::Prompt.new
+
+  choices = []
+  choices.push({name: 'Companero de trabajo', value: 'coworkerID'})
+  choices.push({name: 'Titulo', value: 'title'})
+  choices.push({name: 'Descripcion', value: 'description'})
+  choices.push({name: 'Prioridad', value: 'taskPriority'})
+  choices.push({name: 'Status', value: 'taskStatus'})
+  choices.push({name: 'Ir al menu anterior', value: 'back'})
+
+  selected = prompt.select("Buscar por: ", choices)
+  if (selected == "back")
+    return tasksMenu()
+  end
+  
+  if (selected == 'coworkerID')
+    # Show coworkers and assign to queryText
+  end
+
+  if (selected == 'taskPriority')
+    # Show tasksPriorities and assign to queryText
+  end
+
+  if (selected == 'taskStatus')
+    # Show task status and assign to queryText
+  end
+
+
+
+  queryText = prompt.ask('Valor a buscar: ', default: '')
+
+  # Busqueda lineal
+  result = []
+  for i in 0..$tasks.length-1
+    t = $tasks[i]
+    if (t[selected].index(queryText) != nil)
+      result.push(t)
+    end
+  end
+
+  # Ordenamiento
+  orderTasks(result, selected)
+
+=begin
+  Esta parte se puede hacer con un bucle normal,
+  pero para la calificacion utilizaremos:
+    - Una lista doblemente enlazada
+    - Una funcion recursiva para recorrer la lista
+=end
+
+  tasksList =  createTasksList(result)
+  listTasksRecursive(tasksList)
+  searchTask()
+end
+
+def createTasksList(arr)
+  lista = nil
+  ultimoNodo = nil
+
+  for i in 0..arr.length-1
+      nodo = [nil, arr[i], nil]
+      if (lista == nil)
+          lista = nodo
+      else
+          nodo[0] = ultimoNodo
+          ultimoNodo[2] = nodo
+      end
+      ultimoNodo = nodo
+  end
+  return lista
+end
+
+def listTasksRecursive(list)
+  if (list == nil)
+    return nil
+  end
+  nextTask(list)
+end
+
+def nextTask (nodo)
+  valor = nodo[1]
+  nodo = nodo[2]
+  printCoworkerData(valor)
+  if (nodo != nil)
+    nextTask(nodo)
+  end
+end
+
+def editTask ()
+  puts "Edit task"
+end
+
+def editTask ()
+  puts "Tasks History"
   puts $taskStatus
 end

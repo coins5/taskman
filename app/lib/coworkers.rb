@@ -126,6 +126,13 @@ def searchCoworker ()
   # Ordenamiento
   orderCoworkers(result, selected)
 
+=begin
+  Esta parte se puede hacer con un bucle normal,
+  pero para la calificacion utilizaremos:
+    - Una lista doblemente enlazada
+    - Una funcion recursiva para recorrer la lista
+=end
+
   coworkersList =  createCoworkersList(result)
   listCoworkersRecursive(coworkersList)
   searchCoworker()

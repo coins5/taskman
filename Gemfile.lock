@@ -107,10 +107,11 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   rspec
   tty
 
 BUNDLED WITH
-   1.16.1
+   1.17.1
