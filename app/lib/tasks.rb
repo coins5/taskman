@@ -145,6 +145,18 @@ def searchTask ()
   searchTask()
 end
 
+#FIXME: Debe ser case insensitive
+def orderTasks (arr, field)
+  for i in 0..arr.length-2
+    for j in (i+1)..arr.length-1
+      if (arr[i][field] > arr[j][field] )
+        arr[i], arr[j] = arr[j], arr[i]
+      end
+    end
+  end
+  return arr
+end
+
 def createTasksList(arr)
   lista = nil
   ultimoNodo = nil
@@ -172,10 +184,29 @@ end
 def nextTask (nodo)
   valor = nodo[1]
   nodo = nodo[2]
-  printCoworkerData(valor)
+  printTaskData(valor)
   if (nodo != nil)
     nextTask(nodo)
   end
+end
+
+def printTaskData(task)
+=begin
+  "id": "e845da9c-f52d-4acf-be7e-0b4f1e15ed43",
+  "title": "iiiii"
+  "description": "jjasd\n",
+  "coworkerID": 0,
+  "taskPriority": 0,
+  "taskStatus": 0,
+=end
+  puts "---------------------------------"
+  puts "Codigo: " + task["id"]
+  puts "Titulo: " + task["title"]
+  puts "Descripcion: " + task["description"]
+  puts "Companero de trabajo: " + "" # task["phone"] reemplazar por name (email@example.com) (Rol)
+  puts "Prioridad: " + "" # task["role"] Reemplazar por prioridad (Media, baja | 1,2)
+  puts "Status: " + "" # reemplazar por status como en prioridad
+  puts "---------------------------------"
 end
 
 def editTask ()

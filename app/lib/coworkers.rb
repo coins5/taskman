@@ -138,6 +138,7 @@ def searchCoworker ()
   searchCoworker()
 end
 
+#FIXME: Debe ser case insensitive
 def orderCoworkers (arr, field)
   for i in 0..arr.length-2
     for j in (i+1)..arr.length-1
