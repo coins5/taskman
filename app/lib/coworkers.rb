@@ -95,6 +95,10 @@ def editCoworkers ()
       
     end
   end
+
+  pastel = Pastel.new
+  puts pastel.red('Companero de trabajo no encontrado')
+  return coworkersMenu()
 end
 
 def searchCoworker ()

@@ -276,9 +276,9 @@ def printTaskData(task)
   puts "Codigo: " + task["id"].to_s
   puts "Titulo: " + task["title"].to_s
   puts "Descripcion: " + task["description"].to_s
-  puts "Companero de trabajo: " + coworkerName.to_s # task["phone"] reemplazar por name (email@example.com) (Rol)
-  puts "Prioridad: " + taskPriority.to_s # task["role"] Reemplazar por prioridad (Media, baja | 1,2)
-  puts "Status: " + taskStatus.to_s # reemplazar por status como en prioridad
+  puts "Companero de trabajo: " + coworkerName.to_s
+  puts "Prioridad: " + taskPriority.to_s
+  puts "Status: " + taskStatus.to_s
   puts "---------------------------------"
 end
 
@@ -318,22 +318,37 @@ def editTask ()
     })
   end
 
-  # Task details
-  task = {}
+  tasksList = []
+  for i in 0..$tasks.length-1
+    t = $tasks[i]
+    tasksList.push({
+      name: t["title"],
+      value: t["id"]
+    })
+  end
+
   prompt = TTY::Prompt.new
-  task["id"] = SecureRandom.uuid
-  task["title"] = prompt.ask('Titulo de la tarea', '')
-  task["description"] = prompt.multiline("Descripcion de la tarea").join("")
-  task["taskPriority"] = prompt.select('Establezca prioridad', priorities, filter: true)
-  task["taskStatus"] = prompt.select('Indique estado inicial de la tarea', taskStatus, filter: true)
-  task["coworkerID"] = prompt.select('Seleccione un trabajador', coworkersList, filter: true)
+  taskID = prompt.select('Seleccione una tarea', tasksList, filter: true)
 
-  $tasks.push(task)
-  saveData('./data/tasks.json', JSON.generate($tasks))
+  for i in 0..$tasks.length-1
+    t = $tasks[i]
+    if (t["id"] == taskID)
+      $tasks[i]["title"] = prompt.ask('Titulo de la tarea', default: $tasks[i]["title"])
+      $tasks[i]["description"] = prompt.multiline("Descripcion de la tarea", default: $tasks[i]["description"]).join("")
+      $tasks[i]["taskPriority"] = prompt.select('Establezca prioridad', priorities, filter: true)
+      $tasks[i]["taskStatus"] = prompt.select('Indique estado inicial de la tarea', taskStatus, filter: true)
+      $tasks[i]["coworkerID"] = prompt.select('Seleccione un trabajador', coworkersList, filter: true)
 
-  # [Estilo] Aplicando color al texto
+      saveData('./data/tasks.json', JSON.generate($tasks))
+      
+      # [Estilo] Aplicando color al texto
+      pastel = Pastel.new
+      puts pastel.green('Tarea editada')
+      return tasksMenu()
+    end
+  end
+
   pastel = Pastel.new
-  puts pastel.green('Tarea agregada')
-  tasksMenu()
+  puts pastel.red('Tarea no encontrada')
+  return coworkersMenu()
 end
-
